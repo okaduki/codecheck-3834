@@ -1,31 +1,45 @@
-## デプロイ情報
-#### サービスURL
-{http://example.com}
+# デプロイ情報
+## サービスURL
+[websocket chat](http://sleepy-wildwood-54542.herokuapp.com/)
 
-#### リポジトリURL
-{https://github.com/uuuuu/rrrrr}
+## リポジトリURL
+https://github.com/okaduki/codecheck-3834
 
-#### 使用言語
-- {node / python / ruby / Go / etc.}
+## 使用言語
+node
 
-#### 主なライブラリ
-- {ws / websockets / em-websocket / websocket / etc.}
+## 主なライブラリ
+ws
 
-####  ホスティングサービス
-- {AWS / DigitalOcean / Sakura / Heroku / etc.}
+##  ホスティングサービス
+Heroku
 
-## 独自コマンドの実装
-#### 追加したコマンド
+# 独自コマンドの実装
+## 追加したコマンド
 ```
-bot {command} [parameters...]
+bot ping
+bot image word
+bot (/ぴょん|ぽい/)
 ```
 
-#### コマンドの説明
+## コマンドの説明
+```
+bot ping
+```
+pingコマンド。メッセージとしてpongを返す。
 
-## 創意工夫 & 作り込み
-#### 作り込んだコマンド / 機能
-どんな機能をを追加 / 作り込んだのか？
+```
+bot image word
+```
+wordに関連する画像をGoogle画像検索からランダムに取得し表示する。
 
-#### 創意工夫したポイント
-基本仕様では規定されていなかった、自分で考えた仕様や
-独自コマンドや作り込みの時にどんなコンセプトや考えを持って作ったのか？
+```
+bot (/ぴょん|ぽい/)
+```
+"ぴょん"または"ぽい"の単語が含まれていればごちうさ画像を表示する。
+
+# 創意工夫 & 作り込み
+## 創意工夫したポイント
+初めはごちうさ画像をいくつかローカルで用意することを考えたが、ランダム性があったほうが面白いと思ったので、
+手間ではあるが画像検索から取得することにした。
+その結果、好きなワードから画像を適当に見ることができる機能を追加で容易に実装することができた。
