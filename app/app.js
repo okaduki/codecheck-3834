@@ -47,7 +47,7 @@ wss.on('connection', function connection(ws) {
 	wss.broadcast(resp);
 
 	// bot mentioned
-	let bot_mention_pat = /^@?bot |^bot:/;
+	let bot_mention_pat = /^@?bot[\s　]|^bot:/;
 	if(bot_mention_pat.test(message.text)){
 	  let cmd = message.text.match(/^.?bot.(.*)/)[1];
 
