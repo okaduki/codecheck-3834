@@ -22,7 +22,7 @@ var najax = require('najax');
 var WebSocketServer = require('ws').Server
   , wss = new WebSocketServer({ server: server });
 
-let gapi = 'https://www.googleapis.com/customsearch/v1?q=:q:&cx=' + encodeURI(env.cx) + '&safe=high&num=1&start=:start:&searchType=image&key=' + env.key;
+let gapi = 'https://www.googleapis.com/customsearch/v1?q=:q:&cx=' + encodeURI(process.env.CX) + '&safe=high&num=1&start=:start:&searchType=image&key=' + process.env.KEY;
 
 function getRandomInt(min, max) {
   return Math.floor( Math.random() * (max - min + 1) ) + min;
