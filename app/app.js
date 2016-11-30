@@ -20,7 +20,7 @@ app.get('/index.css', (req, res) => {
 
 var najax = require('najax');
 var WebSocketServer = require('ws').Server
-  , wss = new WebSocketServer({ port: 3000 });
+  , wss = new WebSocketServer({ server: server });
 
 let gapi = 'https://www.googleapis.com/customsearch/v1?q=:q:&cx=' + encodeURI(env.cx) + '&safe=high&num=1&start=:start:&searchType=image&key=' + env.key;
 
