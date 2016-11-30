@@ -1,6 +1,6 @@
 'use strict';
 
-var ws = new WebSocket('ws://localhost:3000');
+var ws = new WebSocket('ws://' + hostname + ':3000');
 
 $(function () {
   var addMessage = function(text){

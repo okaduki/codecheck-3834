@@ -6,7 +6,7 @@ var express = require('express'),
 	server = http.createServer(app),
 	env = require("../config/env.json");
 
-server.listen(8000);
+server.listen(process.env.PORT || 8000);
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
