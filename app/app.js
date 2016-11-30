@@ -24,8 +24,42 @@ var WebSocketServer = require('ws').Server
 
 let gapi = 'https://www.googleapis.com/customsearch/v1?q=:q:&cx=' + encodeURI(process.env.CX) + '&safe=high&num=1&start=:start:&searchType=image&key=' + process.env.KEY;
 
+// utils
 function getRandomInt(min, max) {
   return Math.floor( Math.random() * (max - min + 1) ) + min;
+}
+
+function searchImage(word){
+  let req_url = gapi.replace(/:q:/, encodeURI(word))
+					.replace(/:start:/, getRandomInt(1,100).toString(10));
+  let req_obj = {
+	success: false,
+	type: 'bot',
+	text: 'Sorry, but some error has occured.',
+	cmd: 'gochi',
+  };
+  
+  najax({
+	url: req_url,
+	type: 'GET',
+	dataType: 'json',
+	timeout: 5000,
+	success: (data) => {
+	  if(data.searchInformation.totalResults > 0){
+		req_obj.success = true;
+		req_obj.text = data.items[0].link;
+	  }
+	  else{
+		req_obj.success = false;
+		req_obj.text = 'No images are found :-(';
+	  }
+	},
+	error: () => {
+	}
+  }).always(() => {
+	let resp = JSON.stringify(req_obj);
+	wss.broadcast(resp);
+  });
 }
 
 // Broadcast to all.
@@ -50,7 +84,7 @@ wss.on('connection', function connection(ws) {
 	let bot_mention_pat = /^@?bot[\s　]|^bot:/;
 	if(bot_mention_pat.test(message.text)){
 	  let cmd = message.text.match(/^.?bot.(.*)/)[1];
-
+	  let word;
 	  // ping command
 	  if(cmd === 'ping'){
 		let resp = JSON.stringify({
@@ -61,31 +95,18 @@ wss.on('connection', function connection(ws) {
 		});
 		wss.broadcast(resp);
 	  }
+	  else if((word = cmd.match(/^[\s　]*image[\s　]+(.*)/)) !== null){
+		searchImage(word[1]);
+	  }
 	  else if(/ぴょん|ぽい/g.test(cmd)){
-		let req_url = gapi.replace(/:q:/, encodeURI('ごちうさ'))
-						  .replace(/:start:/, getRandomInt(1,100).toString(10));
-		let req_obj = {
-		  success: false,
+		let resp = JSON.stringify({
+		  success: true,
 		  type: 'bot',
-		  text: 'Sorry, but some error has occured.',
-		  cmd: 'gochi',
-		};
-		
-		najax({
-		  url: req_url,
-		  type: 'GET',
-		  dataType: 'json',
-		  timeout: 5000,
-		  success: (data) => {
-			req_obj.success = true;
-			req_obj.text = data.items[0].link;
-		  },
-		  error: () => {
-		  }
-		}).always(() => {
-		  let resp = JSON.stringify(req_obj);
-		  wss.broadcast(resp);
+		  text: 'bot: あぁ^〜心がぴょんぴょんするんじゃ^〜',
+		  cmd: 'ping',
 		});
+		wss.broadcast(resp);
+		searchImage('ごちうさ');
 	  }
 	}
   });
